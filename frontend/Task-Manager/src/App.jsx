@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Dashboard from './pages/Admin/Dashboard'
 import Login from './pages/Auth/login'
 import SignUp from './pages/Auth/signup'
@@ -18,6 +18,9 @@ const App = () => {
     <div>
       <Router>
         <Routes>
+          {/* Default route: redirect "/" to "/login" to avoid 'No routes matched location "/"' */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
 
