@@ -1,19 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const input = ({ value, onChange, label, placeholder, type }) => {
-    const [showPassword, setShowPassword] = useState(false);
+const Input = ({ value, onChange, label, placeholder, type }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  }
   return (
-    <div className="flex flex-col">
-      <label className="text-xs font-medium text-slate-700">{label}</label>
-      <input
-        value={value}
-        onChange={(e) => onChange(e)}
-        type={type=="password" ? (showPassword ? "text" : "password") : type}
-        placeholder={placeholder}
-        className="w-full p-2 border border-gray-300 rounded mt-2"
-      />
+    <div className="">
+      <label className="text-[13px] text-slate-800">{label}</label>
+      <div className="input-box">
+        <input
+          value={value}
+          onChange={(e) => onChange(e)}
+          type={type == "password" ? (showPassword ? "text" : "password") : type}
+          placeholder={placeholder}
+          className="w-full bg-transparent outline-none"
+        />
+      </div>
     </div>
   )
 }
 
-export default input
+export default Input
