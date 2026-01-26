@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import AuthLayouts from '../../components/layouts/AuthLayouts'
 import Input from '../../components/inputs/input'
+import { validateEmail } from '../../utils/helper'
 
 const login = () => {
   const [email, setEmail] = useState("");
