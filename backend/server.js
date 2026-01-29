@@ -20,6 +20,11 @@ app.use(express.json());
 
 // Define routes
 
+app.get("/api/auth",authRoutes);
+app.get("/api/users", userRoutes);
+app.get("/api/tasks", taskRoutes);
+app.get("/api/reports", reportRoutes);
+
 
 //start the server
 const PORT = process.env.PORT || 5000;

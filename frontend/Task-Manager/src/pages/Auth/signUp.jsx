@@ -30,7 +30,7 @@ const signup = () => {
     if (!password) {
       setError("Please enter the Password.");
       return;
-    } 
+    }
     setError("");
   }
   return <AuthLayouts>
@@ -39,37 +39,56 @@ const signup = () => {
       <p className='text-xs text-slate-700 mt-1.5'>
         Join us today! It takes only a few steps to create your account
       </p>
-      
+
       <form onSubmit={handleSignup} className="flex flex-col gap-4 mt-6">
         <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
-        <Input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          label="Email Address"
-          placeholder="john@example.com"
-          type="email"
-        />
 
-        <Input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          label="Password"
-          placeholder="Min 8 characters"
-          type="password"
-        />
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          <Input
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            label="Full Name"
+            placeholder="John Doe"
+            type="text"
+          />
+          <Input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            label="Email Address"
+            placeholder="john@example.com"
+            type="email"
+          />
 
-        {error && <p className="text-xs text-red-500 pb-2.5">{error}</p>}
+          <Input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            label="Password"
+            placeholder="Min 8 characters"
+            type="password"
+          />
 
-        <button type="submit" className="btn-primary ">
-          Log In
-        </button>
+          <Input
+            value={adminInviteToken}
+            onChange={(e) => setAdminInviteToken(e.target.value)}
+            label="Admin Invite Token"
+            placeholder="6 digit token"
+            type="text"
+          />
+        </div>
 
-        <p className="text-xs text-slate-700 mt-2">
-          Already have an account?{' '}
-          <Link to="/login" className="font-medium text-primary underline">
-            Log In
-          </Link>
-        </p>
+
+          {error && <p className="text-xs text-red-500 pb-2.5">{error}</p>}
+
+          <button type="submit" className="btn-primary ">
+            SIGN UP
+          </button>
+
+          <p className="text-xs text-slate-700 mt-2">
+            Already have an account?{' '}
+            <Link to="/login" className="font-medium text-primary underline">
+              Login
+            </Link>
+          </p>
 
       </form>
     </div>
