@@ -25,7 +25,7 @@ const registerUser = async (req, res) => {
     let role = "member";
     if (
       adminInviteToken &&
-      adminInviteToken === process.env.ADMIN_INVITE_TOKEN
+      adminInviteToken == process.env.ADMIN_INVITE_TOKEN
     ) {
       role = "admin";
     }
@@ -48,8 +48,8 @@ const registerUser = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      profileImageUrl: user.profileImageUrl,
       role: user.role,
+      profileImageUrl: user.profileImageUrl,
       token: generateToken(user._id),
     });
   } catch (error) {
@@ -62,6 +62,29 @@ const registerUser = async (req, res) => {
 // @access  Public
 const loginUser = async (req, res) => {
   try {
+    const { email, password } = req.body;
+
+    // Check for user
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // Return user data with JWT
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      profileImageUrl: user.profileImageUrl,
+      token: generateToken(user._id),
+    });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -72,16 +95,31 @@ const loginUser = async (req, res) => {
 // @access  Private
 const getUserProfile = async (req, res) => {
   try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
 // @desc    Upload user profile
-// @route   POST /api/auth/profile
+// @route   PUT /api/auth/profile
 // @access  Private
-const uploadUserProfile = async (req, res) => {
+const updateUserProfile = async (req, res) => {
   try {
+    const { name, profileImageUrl } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { name, profileImageUrl },
+      { new: true }
+    ).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -90,5 +128,5 @@ module.exports = {
   registerUser,
   loginUser,
   getUserProfile,
-  uploadUserProfile,
+  updateUserProfile,
 };
