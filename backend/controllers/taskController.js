@@ -5,7 +5,71 @@ const Task = require("../models/Task");
 // @access Private (Admin)
 const getTasks = async (req, res) => {
   try {
+    const { status } = req.query;
+    let filter = {};
+
+    if (status) {
+      filter.status = status;
+    }
+
     let tasks;
+
+    if (req.user.role === "admin") {
+      tasks = await Task.find(filter).populate(
+        "assignedTo",
+        "name email profileImageUrl",
+      );
+    } else {
+      tasks = await Task.find({ ...filter, assignedTo: req.user._id }).populate(
+        "assignedTo",
+        "name email profileImageUrl",
+      );
+    }
+
+    //Add completed todoChecklist count to each task
+    tasks = await Promise.all(
+      tasks.map(async (task) => {
+        const completedCount = task.todoChecklist.filter(
+          (item) => item.completed,
+        ).length;
+        return {
+          ...task.__doc,
+          completedTodoCount: completedCount,
+        };
+      })
+    );
+
+    // status summary counts
+    const allTasks = await Task.countDocuments(
+      req.user.role === "admin" ? {} : { assignedTo: req.user._id }
+    );
+    const pendingTasks = await Task.countDocuments({
+      ...filter,
+      status: "pending",
+      ...(req.user.role === "admin" ? {} : { assignedTo: req.user._id }),
+    });
+
+    const inProgressTasks = await Task.countDocuments({
+      ...filter,
+      status: "in-progress",
+      ...(req.user.role === "admin" ? {} : { assignedTo: req.user._id }),
+    });
+
+    const completedTasks = await Task.countDocuments({
+      ...filter,
+      status: "completed",
+      ...(req.user.role === "admin" ? {} : { assignedTo: req.user._id }),
+    });
+
+    res.json({
+      tasks,
+      summary: {
+        all: allTasks,
+        pendingTasks,
+        inProgressTasks,
+        completedTasks,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -45,16 +109,15 @@ const createTask = async (req, res) => {
     const task = new Task({
       title,
       description,
-        priority,
-        dueDate,
-        assignedTo,
-        createdBy: req.user._id,
-        todoCheckList,
-        attachements,
+      priority,
+      dueDate,
+      assignedTo,
+      createdBy: req.user._id,
+      todoCheckList,
+      attachements,
     });
 
     res.status(201).json({ message: "Task created successfully", task });
-
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
