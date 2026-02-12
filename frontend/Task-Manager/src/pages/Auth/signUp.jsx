@@ -3,8 +3,9 @@ import AuthLayouts from '../../components/layouts/AuthLayouts'
 import Input from '../../components/inputs/input'
 import { Link } from 'react-router-dom'
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector'
+import { validateEmail } from '../../utils/helper'
 
-const signup = () => {
+const Signup = () => {
 
   const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
@@ -95,4 +96,4 @@ const signup = () => {
   </AuthLayouts>
 }
 
-export default signup
+export default Signup;

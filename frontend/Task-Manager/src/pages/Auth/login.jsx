@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, Navigate } from 'react-router-dom'
 import AuthLayouts from '../../components/layouts/AuthLayouts'
 import Input from '../../components/inputs/input'
 import { validateEmail } from '../../utils/helper'
+import axiosInstance from '../../utils/axiosInstance'
+import { API_PATHS } from '../../utils/apiPaths'
 
-const login = () => {
-  const [email, setEmail] = useState("");
+const Login = () => {
+  const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
     // Handle login logic here
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if(!validateEmail(email)){
@@ -24,6 +26,32 @@ const login = () => {
     }
 
     setError(null);
+
+    //Login API call logic here
+    try {
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
+
+      const { token, role } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        // Redirect based on user role
+        if (role === "admin") {
+          Navigate("/admin/dashboard");
+        } else {
+          Navigate("/user/dashboard");
+        }
+      }
+    } catch (error) {
+      if(error.response && error.response.data.message){
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    }
   }
 
 
@@ -69,4 +97,4 @@ const login = () => {
 
 }
 
-export default login;
+export default Login;
