@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AuthLayouts from '../../components/layouts/AuthLayouts'
 import Input from '../../components/inputs/input'
 import { validateEmail } from '../../utils/helper'
@@ -7,7 +7,8 @@ import axiosInstance from '../../utils/axiosInstance'
 import { API_PATHS } from '../../utils/apiPaths'
 
 const Login = () => {
-  const [email, setEmail] = useState(" ");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
@@ -40,19 +41,19 @@ const Login = () => {
         localStorage.setItem("token", token);
         // Redirect based on user role
         if (role === "admin") {
-          Navigate("/admin/dashboard");
+          navigate("/admin/dashboard");
         } else {
-          Navigate("/user/dashboard");
+          navigate("/user/dashboard");
         }
       }
-    } catch (error) {
-      if(error.response && error.response.data.message){
-        setError(error.response.data.message);
+    } catch (err) {
+      if(err.response && err.response.data.message){
+        setError(err.response.data.message);
       } else {
         setError("Something went wrong. Please try again.");
       }
     }
-  }
+  };
 
 
   return <AuthLayouts>
