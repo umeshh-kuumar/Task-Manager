@@ -1,16 +1,20 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthLayouts from '../../components/layouts/AuthLayouts'
 import Input from '../../components/inputs/input'
 import { validateEmail } from '../../utils/helper'
 import axiosInstance from '../../utils/axiosInstance'
 import { API_PATHS } from '../../utils/apiPaths'
+import { UserContext } from '../../context/userContext'
 
 const Login = () => {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
+
+  const { updateUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
     // Handle login logic here
   const handleSubmit = async (e) => {
@@ -39,6 +43,7 @@ const Login = () => {
 
       if (token) {
         localStorage.setItem("token", token);
+        updateUser(response.data); // Update user context with the response data
         // Redirect based on user role
         if (role === "admin") {
           navigate("/admin/dashboard");

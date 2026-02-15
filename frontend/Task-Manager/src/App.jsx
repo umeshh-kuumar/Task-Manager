@@ -1,5 +1,5 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import Dashboard from './pages/Admin/Dashboard'
 import Login from './pages/Auth/login'
 import SignUp from './pages/Auth/signup'
@@ -12,15 +12,14 @@ import MyTasks from './pages/User/MyTasks'
 import ViewTaskDetails from './pages/User/viewTaskDetails'
 
 import PrivateRoute from './routes/PrivateRoute'
+import UserProvider, { UserContext } from './context/userContext'
 
 const App = () => {
   return (
+    <UserProvider>
     <div>
       <Router>
         <Routes>
-          {/* Default route: redirect "/" to "/login" to avoid 'No routes matched location "/"' */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
-
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
 
@@ -38,10 +37,26 @@ const App = () => {
             <Route path='/user/my-tasks' element={<MyTasks/>} />
             <Route path='/user/task-details/:id' element={<ViewTaskDetails/>} />
           </Route>
+          {/* Default Route*/}
+          <Route path='/' element={<Root />}/>
         </Routes>
       </Router>
     </div >
+    </UserProvider>
   )
 }
 
 export default App
+
+const Root = () => {
+  const { user, loading } = useContext(UserContext);
+
+  if (loading) return <Outlet />; // or a loading spinner
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+  
+  // Redirect based on role
+  return user.role === "admin" ? <Navigate to="/admin/dashboard" /> : <Navigate to="/user/dashboard" />
+}
