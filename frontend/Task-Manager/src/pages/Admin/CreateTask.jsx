@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { LuTrash2 } from "react-icons/lu"
 import SelectDropdown from '../../components/Inputs/SelectDropdown';
 import SelectUsers from '../../components/Inputs/SelectUsers';
+import TodoListInput from '../../components/Inputs/TodoListInput';
 
 
 
@@ -162,6 +163,19 @@ const CreateTask = () => {
                 />
               </div>
 
+            </div>
+
+            <div className='mt-3'>
+              <label className='text-xs font-medium text-slate-600'>
+                TODO checklist
+              </label>
+
+              <TodoListInput
+              todoList={taskData?.todoChecklist}
+              setTodoList={(value)=>
+                handleValueChange("todoChecklist", value)
+              }
+              />
             </div>
           </div>
         </div>
