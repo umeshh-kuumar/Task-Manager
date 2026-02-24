@@ -13,9 +13,9 @@ const TaskListTable = ({ tableData }) => {
 
     const getPriorityBadgeColor = (priority) => {
         switch (priority) {
-            case "High": return "bg-red-100 text-red-500 border border-red-200";
-            case "Medium": return "bg-orange-100 text-orange-500 border border-orange-200";
-            case "Low": return "bg-green-100 text-green-500 border border-green-200";
+            case "high": return "bg-red-100 text-red-500 border border-red-200";
+            case "medium": return "bg-orange-100 text-orange-500 border border-orange-200";
+            case "low": return "bg-green-100 text-green-500 border border-green-200";
             default: return "bg-gray-100 text-gray-500 border border-gray-200";
         }
     };

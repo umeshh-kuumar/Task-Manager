@@ -17,13 +17,13 @@ const CustomBarChart = ({ data }) => {
     // Function to alternative colors
     const getBarColor = (entry) => {
         switch (entry?.priority) {
-            case "Low":
+            case "low":
                 return "#00BC7D";
 
-            case "Medium":
+            case "medium":
                 return "#FE9900";
 
-            case "High":
+            case "high":
                 return "#FF1F57";
 
             default:
@@ -67,13 +67,13 @@ const CustomBarChart = ({ data }) => {
 
                     <Tooltip content={CustomTooltip} cursor={{ fill: "transparent" }} />
 
-                    <Bar 
-                    dataKey="count"
-                    nameKey="priority"
-                    fill="#FF8042"
-                    radius={[10, 10, 0, 0]}
-                    activeDot={{ r:8, fill: "yellow" }}
-                    activeStyle={{ fill: "green"}}
+                    <Bar
+                        dataKey="count"
+                        nameKey="priority"
+                        fill="#FF8042"
+                        radius={[10, 10, 0, 0]}
+                        activeDot={{ r: 8, fill: "yellow" }}
+                        activeStyle={{ fill: "green" }}
                     >
                         {data.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={getBarColor(entry)} />

@@ -23,7 +23,7 @@ const CreateTask = () => {
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
-    priority: "Low",
+    priority: "low",
     dueDate: "",
     assignedTo: [],
     todoChecklist: [],
@@ -48,7 +48,7 @@ const CreateTask = () => {
     setTaskData({
       title: "",
       description: "",
-      priority: "Low",
+      priority: "low",
       dueDate: "",
       assignedTo: [],
       todoChecklist: [],

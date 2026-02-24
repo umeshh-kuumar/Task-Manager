@@ -39,9 +39,9 @@ const Dashboard = () => {
     setPieChartData(taskDistributionData);
 
     const PriorityLevelsData = [
-      { priority: "Low", count: taskPriorityLevels?.Low || 0 },
-      { priority: "Medium", count: taskPriorityLevels?.Medium || 0 },
-      { priority: "High", count: taskPriorityLevels?.High || 0 },
+      { priority: "Low", count: taskPriorityLevels?.low || 0 },
+      { priority: "Medium", count: taskPriorityLevels?.medium || 0 },
+      { priority: "High", count: taskPriorityLevels?.high || 0 },
     ];
 
     setBarChartData(PriorityLevelsData);
@@ -159,7 +159,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {JSON.stringify(dashboardData)}
     </DashboardLayout>
   )
 }

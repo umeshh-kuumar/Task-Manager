@@ -299,7 +299,7 @@ const getDashboardData = async (req, res) => {
     taskDistribution["All"] = totalTasks; // add total count to taskDistribution
 
     // Ensure all priority levels are included
-    const taskpriorities = ["Low", "Medium", "High"];
+    const taskpriorities = ["low", "medium", "high"];
     const taskPriorityRaw = await Task.aggregate([
       {
         $group: {
@@ -309,7 +309,7 @@ const getDashboardData = async (req, res) => {
       },
     ]);
 
-    const taskPrioritylevels = taskpriorities.reduce((acc, priority) => {
+    const taskPriorityLevels = taskpriorities.reduce((acc, priority) => {
       acc[priority] =
         taskPriorityRaw.find((item) => item._id === priority)?.count || 0;
       return acc;
@@ -330,7 +330,7 @@ const getDashboardData = async (req, res) => {
       },
       charts: {
         taskDistribution,
-        taskPrioritylevels,
+        taskPriorityLevels,
       },
       recentTasks,
     });
@@ -378,7 +378,7 @@ const getUserDashboardData = async (req, res) => {
     taskDistribution["All"] = totalTasks; // add total count to taskDistribution
 
     // Task distribution by priority
-    const taskpriorities = ["Low", "Medium", "High"];
+    const taskpriorities = ["low", "medium", "high"];
     const taskPriorityLevelsRaw = await Task.aggregate([
       { $match: { assignedTo: userId } }, // Filter by user
       { $group: { _id: "$priority", count: { $sum: 1 } } },
