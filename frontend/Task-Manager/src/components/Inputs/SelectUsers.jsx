@@ -5,7 +5,7 @@ import { LuUser, LuUsers } from 'react-icons/lu';
 import Modal from '../Modal';
 import AvatarGroup from '../AvatarGroup';
 
-const SelectUsers = ({ selectedUsers = [], setSelectUsers }) => {
+const SelectUsers = ({ selectedUsers, setSelectedUsers }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tempSelectedUsers, setTempSelectedUsers] = useState([]);
@@ -30,7 +30,7 @@ const SelectUsers = ({ selectedUsers = [], setSelectUsers }) => {
   };
 
   const handleAssign = () => {
-    setSelectUsers(tempSelectedUsers);
+    setSelectedUsers(tempSelectedUsers);
     setIsModalOpen(false);
   };
 
@@ -43,9 +43,7 @@ const SelectUsers = ({ selectedUsers = [], setSelectUsers }) => {
   }, []);
 
   useEffect(() => {
-    if (selectedUsers && selectedUsers.length === 0) {
-      setTempSelectedUsers([]);
-    }
+    setTempSelectedUsers(selectedUsers || []);
   }, [selectedUsers]);
 
   return (
@@ -56,9 +54,9 @@ const SelectUsers = ({ selectedUsers = [], setSelectUsers }) => {
         </button>
       )}
 
-      {selectedUserAvatars.length > 0 &&(
+      {selectedUserAvatars.length > 0 && (
         <div className='cursor-pointer' onClick={() => setIsModalOpen(true)}>
-          <AvatarGroup avatars={selectedUserAvatars} maxVisible={3}/>
+          <AvatarGroup avatars={selectedUserAvatars} maxVisible={3} />
         </div>
       )}
 
@@ -73,11 +71,17 @@ const SelectUsers = ({ selectedUsers = [], setSelectUsers }) => {
               key={user._id}
               className='flex items-center gap-4 p-3 border-b border-grey-200'
             >
-              <img
-                src={user.profileImageUrl}
-                alt={user.name}
-                className='w-10 h-10 rounded-full'
-              />
+              {user.profileImageUrl ? (
+                <img
+                  src={user.profileImageUrl}
+                  alt={user.name}
+                  className='w-10 h-10 rounded-full'
+                />
+              ) : (
+                <div className='w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center font-medium text-gray-600'>
+                  {user.name ? user.name.charAt(0).toUpperCase() : <LuUser />}
+                </div>
+              )}
               <div className='flex-1'>
                 <p className='font-medium text-grey-800 dark:text-white'>
                   {user.name}
@@ -98,7 +102,7 @@ const SelectUsers = ({ selectedUsers = [], setSelectUsers }) => {
         </div>
 
         <div className='flex justify-end gap-4 pt-4'>
-          <button className='card-btn' onClick={()=> setIsModalOpen(false)}>
+          <button className='card-btn' onClick={() => setIsModalOpen(false)}>
             CANCEL
           </button>
           <button className='card-btn-fill' onClick={handleAssign}>

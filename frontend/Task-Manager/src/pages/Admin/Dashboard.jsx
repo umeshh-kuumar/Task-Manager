@@ -12,6 +12,7 @@ import { LuArrowRight } from 'react-icons/lu';
 import TaskListTable from '../../components/TaskListTable';
 import CustomPieChart from '../../components/Charts/CustomPieChart';
 import CustomBarChart from '../../components/Charts/CustomBarChart';
+import CustomLegend from '../../components/Charts/CustomLegend';
 
 const COLORS = ["#8D51FF", "#00B8DB", "#7BCE00"];
 
@@ -53,6 +54,7 @@ const Dashboard = () => {
       const response = await axiosInstance.get(
         API_PATHS.TASKS.GET_DASHBOARD_DATA
       );
+
       if (response.data) {
         setDashboardData(response.data);
         prepareChartData(response.data.charts || null);
@@ -61,6 +63,7 @@ const Dashboard = () => {
       console.error("Error fetching dashboard data", error);
     }
   };
+
 
   const onSeeMore = () => {
     navigate("/admin/tasks");
@@ -156,6 +159,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      {JSON.stringify(dashboardData)}
     </DashboardLayout>
   )
 }

@@ -57,13 +57,71 @@ const CreateTask = () => {
   };
 
   // Create Task
-  const createTask = async () => { };
+  const createTask = async () => {
+    setLoading(true);
+
+    try {
+      const todoList = taskData.todoChecklist?.map((item) => ({
+        text: item,
+        completed: false,
+      }));
+
+      const response = await axiosInstance.post(API_PATHS.TASKS.CREATE_TASK, {
+        ...taskData,
+        priority: taskData.priority.toLowerCase(),
+        dueDate: new Date(taskData.dueDate).toISOString(),
+        todoCheckList: todoList,
+      });
+      toast.success("Task created successfully");
+
+      clearData();
+    } catch (error) {
+      console.error("Error creating task:", error.response?.data || error.message);
+      toast.error(error.response?.data?.error || "Error creating task");
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Update Task
   const updateTask = async () => { };
 
   const handleSubmit = async (e) => {
     setError(null);
+
+    // Input validation
+    if (!taskData.title.trim()) {
+      setError("Title is required");
+      return;
+    }
+
+    if (!taskData.description.trim()) {
+      setError("Description is required");
+      return;
+    }
+
+    if (!taskData.dueDate) {
+      setError("Due date is required");
+      return;
+    }
+
+    if (taskData.assignedTo?.length === 0) {
+      setError("Task not assigned to any member");
+      return;
+    }
+
+    if (taskData.todoChecklist?.length === 0) {
+      setError("Add at least one todo task");
+      return;
+    }
+
+    if (taskId) {
+      updateTask();
+      return;
+    }
+
+    createTask();
   };
 
   //get Task info by ID
@@ -160,7 +218,7 @@ const CreateTask = () => {
 
                 <SelectUsers
                   selectedUsers={taskData.assignedTo}
-                  setSelectUsers={(value) => {
+                  setSelectedUsers={(value) => {
                     handleValueChange("assignedTo", value);
                   }}
                 />

@@ -276,12 +276,12 @@ const getDashboardData = async (req, res) => {
     const pendingTasks = await Task.countDocuments({ status: "Pending" });
     const completedTasks = await Task.countDocuments({ status: "Completed" });
     const overdueTasks = await Task.countDocuments({
-      status: { $ne: "completed" },
+      status: { $ne: "Completed" },
       dueDate: { $lt: new Date() },
     });
 
     // Ensure all possible statuses are included
-    const taskStatuses = ["pending", "In progress", "Completed"];
+    const taskStatuses = ["Pending", "In Progress", "Completed"];
     const taskDistributionRaw = await Task.aggregate([
       {
         $group: {
@@ -299,7 +299,7 @@ const getDashboardData = async (req, res) => {
     taskDistribution["All"] = totalTasks; // add total count to taskDistribution
 
     // Ensure all priority levels are included
-    const taskpriorities = ["low", "medium", "high"];
+    const taskpriorities = ["Low", "Medium", "High"];
     const taskPriorityRaw = await Task.aggregate([
       {
         $group: {
@@ -358,12 +358,12 @@ const getUserDashboardData = async (req, res) => {
     });
     const overdueTasks = await Task.countDocuments({
       assignedTo: userId,
-      status: { $ne: "completed" },
+      status: { $ne: "Completed" },
       dueDate: { $lt: new Date() },
     });
 
     //Task distribution by status
-    const taskStatuses = ["pending", "In progress", "Completed"];
+    const taskStatuses = ["Pending", "In Progress", "Completed"];
     const taskDistributionRaw = await Task.aggregate([
       { $match: { assignedTo: userId } }, // Filter by user
       { $group: { _id: "$status", count: { $sum: 1 } } },
@@ -378,7 +378,7 @@ const getUserDashboardData = async (req, res) => {
     taskDistribution["All"] = totalTasks; // add total count to taskDistribution
 
     // Task distribution by priority
-    const taskpriorities = ["low", "medium", "high"];
+    const taskpriorities = ["Low", "Medium", "High"];
     const taskPriorityLevelsRaw = await Task.aggregate([
       { $match: { assignedTo: userId } }, // Filter by user
       { $group: { _id: "$priority", count: { $sum: 1 } } },
