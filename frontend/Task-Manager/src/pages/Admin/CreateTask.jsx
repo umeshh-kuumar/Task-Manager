@@ -125,7 +125,9 @@ const CreateTask = () => {
   };
 
   //get Task info by ID
-  const getTaskDetailsByID = async (id) => { };
+  const getTaskDetailsByID = async (id) => {
+
+  };
 
   // Delete Task
   const deleteTask = async () => { };

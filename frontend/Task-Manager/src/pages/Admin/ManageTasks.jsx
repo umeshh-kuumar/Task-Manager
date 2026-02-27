@@ -4,6 +4,8 @@ import axiosInstance from '../../utils/axiosInstance'
 import { API_PATHS } from '../../utils/apiPaths'
 import { useNavigate } from 'react-router-dom'
 import { LuFileSpreadsheet } from 'react-icons/lu'
+import TaskStatusTabs from '../../components/TaskStatusTabs'
+import TaskCard from '../../components/Cards/TaskCard'
 
 
 const ManageTasks = () => {
@@ -72,20 +74,58 @@ const ManageTasks = () => {
   return (
     <DashboardLayout activeMenu="Manage Tasks">
       <div className='mt-5'>
-        <div className='flex flex-col md:flex-row md:items-center justify-between'>
+        <div className='flex flex-col lg:flex-row lg:items-center justify-between'>
           <div className='flex items-center justify-between gap-3'>
             <h2 className='text-xl md:text-xl font-medium'>
               My Tasks
             </h2>
 
             <button
-              className='flex download-btn'
+              className='flex lg:hidden download-btn'
               onClick={handleDownloadReport}
             >
               <LuFileSpreadsheet className="text-lg" />
               Download Report
             </button>
           </div>
+
+          {tabs.length > 0 && (
+            <div className='flex items-center gap-3'>
+              <TaskStatusTabs
+                tabs={tabs}
+                activeTab={filterStatus}
+                setActiveTab={setFilterStatus}
+              />
+
+              <button
+                className='hidden lg:flex download-btn'
+                onClick={handleDownloadReport}
+              >
+                <LuFileSpreadsheet className="text-lg" />
+                Download Report
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-4'>
+          {allTasks?.map((item, index) => (
+            <TaskCard
+              key={item._id}
+              title={item.title}
+              description={item.description}
+              priority={item.priority}
+              status={item.status}
+              progress={item.progress}
+              createdAt={item.createdAt}
+              dueDate={item.dueDate}
+              assignedTo={item.assignedTo?.map((item) => item.profileImageUrl)}
+              attachmentCount={item.attachments?.length || 0}
+              completedTodoCount={item.completedTodoCount || 0}
+              todoChecklist={item.todoChecklist || []}
+              onCardClick={() => handleClick(item)}
+            />
+          ))}
         </div>
       </div>
     </DashboardLayout>

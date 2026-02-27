@@ -9,14 +9,18 @@ const Navbar = ({ activeMenu }) => {
             <button
                 className=" block lg:hidden text-black"
                 onClick={() => {
-                    setOpenSideMenu(!setOpenSideMenu);
+                    setOpenSideMenu(!openSideMenu);
                 }}
             >
-                {setOpenSideMenu ? (<HiOutlineX className="text-2xl" />) : (<HiOutlineMenu className="text-2xl" />)}
+                {openSideMenu ? (
+                    <HiOutlineX className="text-2xl" />
+                ) : (
+                    <HiOutlineMenu className="text-2xl" />
+                )}
             </button>
 
             <h2 className="text-lg font-medium text-black">
-                Expense Tracker
+                Task Manager
             </h2>
 
             {openSideMenu && (
