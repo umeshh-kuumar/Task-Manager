@@ -17,7 +17,7 @@ const TaskCard = ({
     assignedTo,
     attachmentCount,
     completedTodoCount,
-    todoChecklist,
+    todoCheckList,
     onClick
 }) => {
 
@@ -32,11 +32,11 @@ const TaskCard = ({
         }
     };
 
-    const getPriorityTagColor = (priority) => {
-        switch (priority) {
-            case 'Low':
+    const getPriorityTagColor = () => {
+        switch (priority?.toLowerCase()) {
+            case 'low':
                 return 'text-emerald-500 bg-emerald-50 border border-emerald-500/10'
-            case 'Medium':
+            case 'medium':
                 return 'text-amber-500 bg-amber-50 border border-amber-500/10'
             default:
                 return 'text-rose-500 bg-rose-50 border border-rose-500/10'
@@ -57,7 +57,7 @@ const TaskCard = ({
                 <div
                     className={`text-[11px] font-medium ${getPriorityTagColor()} px-4 py0.5 rounded`}
                 >
-                    {priority} priority
+                    {priority ? priority.charAt(0).toUpperCase() + priority.slice(1) : ''} priority
                 </div>
             </div>
             <div
@@ -78,7 +78,7 @@ const TaskCard = ({
                 <p className='text-[13px] text-gray-700/80 font-medium mt-2 mb-2 leading-[18px]'>
                     Task Done: {" "}
                     <span className='font-semibold text-gray-700'>
-                        {completedTodoCount} / {todoChecklist.length || 0}
+                        {completedTodoCount} / {todoCheckList?.length || 0}
                     </span>
                 </p>
 
