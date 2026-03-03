@@ -47,19 +47,19 @@ const ManageTasks = () => {
   }
 
   // download task report
-  const handleDownloadReport = async (taskId) => {
+  const handleDownloadReport = async () => {
     try {
-      const response = await axiosInstance.get(API_PATHS.TASKS.DOWNLOAD_REPORT, {
-        params: { taskId },
+      const response = await axiosInstance.get(API_PATHS.REPORTS.EXPORT_TASKS, {
         responseType: 'blob',
       });
+
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `task-report-${taskId}.pdf`);
+      link.setAttribute('download', `task_details.xlsx`);
       document.body.appendChild(link);
       link.click();
-      link.remove();
+      link.parentNode.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading task report:", error.response?.data || error.message);
