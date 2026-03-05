@@ -42,8 +42,8 @@ const MyTasks = () => {
     }
   };
 
-  const handleClick = (taskId) => {
-    navigate(`/user/task-details/${taskId}`);
+  const handleClick = (taskData) => {
+    navigate(`/user/task-details/${taskData._id}`);
   }
 
   // download task report
