@@ -384,7 +384,7 @@ const getUserDashboardData = async (req, res) => {
       { $group: { _id: "$priority", count: { $sum: 1 } } },
     ]);
 
-    const taskPrioritylevels = taskpriorities.reduce((acc, priority) => {
+    const taskPriorityLevels = taskpriorities.reduce((acc, priority) => {
       acc[priority] =
         taskPriorityLevelsRaw.find((item) => item._id === priority)?.count || 0;
       return acc;
@@ -405,7 +405,7 @@ const getUserDashboardData = async (req, res) => {
       },
       charts: {
         taskDistribution,
-        taskPrioritylevels,
+        taskPriorityLevels,
       },
       recentTasks,
     });
