@@ -84,7 +84,7 @@ const Signup = () => {
     }
   }
   return <AuthLayouts>
-    <div className="lg:w-[100] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center">
+    <div className="lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center">
       <h3 className="text-xl font-semibold text-black">Create an Account</h3>
       <p className='text-xs text-slate-700 mt-1.5'>
         Join us today! It takes only a few steps to create your account
