@@ -1,5 +1,5 @@
 import React from 'react'
-import img from '../../assets/AuthLayouts.jpg'
+import img from '../../assets/authlayouts.JPG'
 
 const AuthLayouts = ({ children }) => {
   return (

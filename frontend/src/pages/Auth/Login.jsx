@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthLayouts from '../../components/layouts/AuthLayouts'
-import Input from '../../components/inputs/input'
+import Input from '../../components/Inputs/Input'
 import { validateEmail } from '../../utils/helper'
 import axiosInstance from '../../utils/axiosInstance'
 import { API_PATHS } from '../../utils/apiPaths'
@@ -16,16 +16,16 @@ const Login = () => {
   const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-    // Handle login logic here
+  // Handle login logic here
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!validateEmail(email)){
+    if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       return;
     }
 
-    if(!password){
+    if (!password) {
       setError("Please enter the Password.");
       return;
     }
@@ -52,7 +52,7 @@ const Login = () => {
         }
       }
     } catch (err) {
-      if(err.response && err.response.data.message){
+      if (err.response && err.response.data.message) {
         setError(err.response.data.message);
       } else {
         setError("Something went wrong. Please try again.");

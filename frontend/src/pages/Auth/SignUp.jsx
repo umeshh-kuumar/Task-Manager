@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import AuthLayouts from '../../components/layouts/AuthLayouts'
-import Input from '../../components/inputs/input'
+import Input from '../../components/Inputs/Input'
 import { Link, useNavigate } from 'react-router-dom'
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector'
 import { validateEmail } from '../../utils/helper'
@@ -20,13 +20,13 @@ const Signup = () => {
   const [error, setError] = useState(null);
 
   const { updateUser } = useContext(UserContext);
-  
+
 
   const navigate = useNavigate();
 
 
   // Handle SingUp for Submit
-  const handleSignup =  async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
     let profileImageUrl = '';
@@ -76,7 +76,7 @@ const Signup = () => {
         }
       }
     } catch (err) {
-      if(err.response && err.response.data.message){
+      if (err.response && err.response.data.message) {
         setError(err.response.data.message);
       } else {
         setError("Something went wrong. Please try again.");
@@ -127,18 +127,18 @@ const Signup = () => {
         </div>
 
 
-          {error && <p className="text-xs text-red-500 pb-2.5">{error}</p>}
+        {error && <p className="text-xs text-red-500 pb-2.5">{error}</p>}
 
-          <button type="submit" className="btn-primary ">
-            SIGN UP
-          </button>
+        <button type="submit" className="btn-primary ">
+          SIGN UP
+        </button>
 
-          <p className="text-xs text-slate-700 mt-2">
-            Already have an account?{' '}
-            <Link to="/login" className="font-medium text-primary underline">
-              Login
-            </Link>
-          </p>
+        <p className="text-xs text-slate-700 mt-2">
+          Already have an account?{' '}
+          <Link to="/login" className="font-medium text-primary underline">
+            Login
+          </Link>
+        </p>
 
       </form>
     </div>
