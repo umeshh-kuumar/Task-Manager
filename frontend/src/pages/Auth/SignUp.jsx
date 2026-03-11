@@ -89,6 +89,10 @@ const Signup = () => {
       <p className='text-xs text-slate-700 mt-1.5'>
         Join us today! It takes only a few steps to create your account
       </p>
+      <p className='text-xs text-blue-600 mt-1.5'>
+        To use <span className="font-semibold">Admin</span> features, sign up with the <span className="font-semibold">Admin Invite Token</span>:
+        <span className="font-bold ml-1">3847799</span> on the Sign Up.
+      </p>
 
       <form onSubmit={handleSignup} className="flex flex-col gap-4 mt-6">
         <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
